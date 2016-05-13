@@ -41,6 +41,7 @@ class BugeException {
             $request['class_name'] = get_class($exception);
             if (!in_array($request['class_name'], $this->config['prevent_exception'])) {                
                 \Mail::send("{$this->config['email_template']}", $request, function($message) use ($request) {                    
+                    $message->from($this->config['from_emails'], $this->config['project_name']));
                     $message->to($this->config['notify_emails'])->subject("{$this->config['project_name']} On Url " . $request['fullUrl']);
                 });
             }
